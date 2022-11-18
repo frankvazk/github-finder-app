@@ -32,11 +32,13 @@ export const GithubProvider = ({ children }) => {
   };
 
   const setLoading = () => dispatch({ type: "SET_LOADING" });
+  const clearSearch = () => dispatch({ type: "CLEAR_SEARCH" });
 
   const data = {
     users: state.users,
     loading: state.loading,
     searchUsers,
+    clearSearch,
   };
 
   return (
