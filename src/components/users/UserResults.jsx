@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import GithubContext from "../../context/github/githubContext";
 import Spinner from "../layout/Spinner";
 import UserItem from "./UserItem";
