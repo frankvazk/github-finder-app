@@ -4,12 +4,7 @@ import Spinner from "../layout/Spinner";
 import UserItem from "./UserItem";
 
 const UserResults = () => {
-  const { users, loading, fetchUsers } = useContext(GithubContext);
-
-  useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers]);
-
+  const { users, loading } = useContext(GithubContext);
   return loading ? (
     <Spinner />
   ) : (

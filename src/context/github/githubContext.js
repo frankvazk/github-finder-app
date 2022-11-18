@@ -8,7 +8,7 @@ const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
 export const GithubProvider = ({ children }) => {
   const initialState = {
     users: [],
-    loading: true,
+    loading: false,
   };
 
   const [state, dispatch] = useReducer(gitHubReducer, initialState);
@@ -26,6 +26,8 @@ export const GithubProvider = ({ children }) => {
       payload: data,
     });
   };
+
+  const setLoading = () => dispatch({ type: "LOADING" });
 
   const data = {
     users: state.users,
