@@ -64,6 +64,81 @@ const User = () => {
                 </a>
               </div>
             </div>
+
+            <div className="shado-md pg-base-100 stats w-full rounded-lg">
+              {user.location && (
+                <div className="stat">
+                  <div className="text-md stat-title">Location</div>
+                  <div className="stat-value text-lg">{user.location}</div>
+                </div>
+              )}
+              {user.blog && (
+                <div className="stat">
+                  <div className="text-md stat-title">Website</div>
+                  <div className="stat-value text-lg">
+                    <a
+                      href={`https://${user.blog}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {user.blog}
+                    </a>
+                  </div>
+                </div>
+              )}
+              {user.twitter_username && (
+                <div className="stat">
+                  <div className="text-md stat-title">Twitter</div>
+                  <div className="stat-value text-lg">
+                    <a
+                      href={`https://twitter/${user.twitter_username}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {user.twitter_username}
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="stats mb-6 w-full rounded-lg bg-base-100 py-5 shadow-md">
+          <div className="stat">
+            <div className="stat-figure text-secondary">
+              <FaUsers className="text-3xl md:text-5xl" />
+            </div>
+            <div className="stat-title pr-5">Followers </div>
+            <div className="stat-value pr-5 text-3xl md:text-4xl">
+              {user.followers}
+            </div>
+          </div>
+          <div className="stat">
+            <div className="stat-figure text-secondary">
+              <FaUserFriends className="text-3xl md:text-5xl" />
+            </div>
+            <div className="stat-title pr-5">Following </div>
+            <div className="stat-value pr-5 text-3xl md:text-4xl">
+              {user.following}
+            </div>
+          </div>
+          <div className="stat">
+            <div className="stat-figure text-secondary">
+              <FaCodepen className="text-3xl md:text-5xl" />
+            </div>
+            <div className="stat-title pr-5">Public Repos </div>
+            <div className="stat-value pr-5 text-3xl md:text-4xl">
+              {user.public_repos}
+            </div>
+          </div>
+          <div className="stat">
+            <div className="stat-figure text-secondary">
+              <FaStore className="text-3xl md:text-5xl" />
+            </div>
+            <div className="stat-title pr-5">Public Gists </div>
+            <div className="stat-value pr-5 text-3xl md:text-4xl">
+              {user.public_gists}
+            </div>
           </div>
         </div>
       </div>
