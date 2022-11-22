@@ -1,52 +1,45 @@
+import axios from "axios";
+
 const GITHUB_URL = process.env.REACT_APP_GITHUB_URL;
 const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
+
+const github = axios.create({
+  baseURL: GITHUB_URL,
+  headers: {
+    Authorization: `token ${GITHUB_TOKEN}`,
+  },
+});
 
 export const searchUsers = async (query) => {
   const params = new URLSearchParams({
     q: query,
   });
-  const res = await fetch(`${GITHUB_URL}/search/users?${params}`, {
-    headers: {
-      Authorization: `token ${GITHUB_TOKEN}`,
-    },
-  });
-  const data = await res.json();
-  if (!data) {
+
+  const res = await github.get(`/search/users?${params}`);
+  if (!res.data) {
     return [];
-  } else {
-    return data.items;
   }
+
+  return res.data.items;
 };
 
-export const getUser = async (login) => {
-  const res = await fetch(`${GITHUB_URL}/users/${login}`, {
-    headers: {
-      Authorization: `token ${GITHUB_TOKEN}`,
-    },
-  });
-
-  if (res.status === 404) {
-    return null;
-  } else {
-    const data = await res.json();
-    return data;
-  }
-};
-
-export const getUserRepos = async (login) => {
+export const getUserAndRepos = async (login) => {
   const params = new URLSearchParams({
     sort: "created",
     per_page: 10,
   });
-  const res = await fetch(`${GITHUB_URL}/users/${login}/repos?${params}`, {
-    headers: {
-      Authorization: `token ${GITHUB_TOKEN}`,
-    },
-  });
-  const data = await res.json();
-  if (!data) {
-    return [];
-  } else {
-    return data;
+  try {
+    const [user, repos] = await Promise.all([
+      github.get(`/users/${login}`),
+      github.get(`/users/${login}/repos?${params}`),
+    ]);
+
+    if (!user.data) {
+      return null;
+    }
+
+    return { user: user.data, repos: repos.data };
+  } catch (error) {
+    return null;
   }
 };
