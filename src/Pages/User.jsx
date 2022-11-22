@@ -4,16 +4,26 @@ import { FaCodepen, FaStore, FaUserFriends, FaUsers } from "react-icons/fa";
 import GithubContext from "../context/github/githubContext";
 import Spinner from "../components/layout/Spinner";
 import RepoList from "../components/repos/RepoList";
+import { getUser, getUserRepos } from "../context/github/GitHubActions";
 
 const User = () => {
   const { login } = useParams();
-  const { user, getUser, repos, getUserRepos, loading } =
-    useContext(GithubContext);
+  const { user, repos, loading, dispatch } = useContext(GithubContext);
+
   useEffect(() => {
-    getUser(login);
-    getUserRepos(login);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    dispatch({ type: "SET_LOADING" });
+    const getUserData = async () => {
+      const userData = await getUser(login);
+      if (userData === null) {
+        dispatch({ type: "NOT_FOUND" });
+      } else {
+        dispatch({ type: "SET_USER", payload: userData });
+        const userRepos = await getUserRepos(login);
+        dispatch({ type: "GET_REPOS", payload: userRepos });
+      }
+    };
+    getUserData();
+  }, [dispatch, login]);
 
   if (!loading && user === null) {
     return <Navigate to="/not-found" />;

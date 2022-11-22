@@ -22,7 +22,6 @@ const gitHubReducer = (state, action) => {
       return {
         ...state,
         user: action.payload,
-        loading: false,
       };
     case "GET_REPOS":
       return {
